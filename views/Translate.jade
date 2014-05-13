@@ -8,17 +8,13 @@ block content
 					div.form-group.col-xs-6
 						label(for="start-lang") From:
 						select.form-control#start-lang(name="start-lang")
-							option English
-							option Spanish
-							option German
-							option French
+							for lang in langs 
+								option(data-code='#{lang.code}')= lang.name
 					div.form-group.col-xs-6
 						label(for="end-lang") To:
 						select.form-control#end-lang(name="end-lang")
-							option English
-							option Spanish
-							option German
-							option French
+							for lang in langs 
+								option(data-code='#{lang.code}')= lang.name
 				div.form-group.row
 					input.form-control#translate-input(name="translate-input" placeholder="What To Translate")
 				div.form-group.row

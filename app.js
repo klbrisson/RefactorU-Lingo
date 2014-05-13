@@ -1,3 +1,16 @@
+
+var languages = [
+	{name: 'English',
+	code: 'eng'},
+	{name: 'Spanish',
+	code: 'spa'},
+	{name: 'German',
+	code: 'ger'},
+	{name: 'French',
+	code: 'fra'}
+]
+
+
 var express = require('express');
 var bodyParser = require('body-parser');
 // var translateController = require('./controllers/translateController.js');
@@ -19,7 +32,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/translate', function(req, res) {
-	res.render('Translate');
+	res.render('Translate', {langs: languages});
 })
 
 app.get('/quiz', function(req, res) {
@@ -31,21 +44,44 @@ app.get('/progress', function(req, res) {
 })
 
 app.post('/translation', function(req, res) {
+	console.log(req);
 	beglobal.translations.translate(
-  {text: 'goodbye', from: 'eng', to: 'fra'},
+  {text: req.body.info.text, from: req.body.info.from, to: req.body.info.to},
   function(err, results) {
     if (err) {
       return console.log(err);
     }
 
     console.log(results);
+		res.send(results.translation);
+
   }
 );
-	res.send(req.body);
+	// res.send(req.body);
 })
 
 var server = app.listen(3364, function() {
 	console.log('Express server listening on port ' + server.address().port);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
