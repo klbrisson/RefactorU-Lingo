@@ -1,0 +1,27 @@
+extends layout
+
+block content
+	h1 Translate
+		div.container
+			form(method="post" action="/translation")
+				div.row
+					div.form-group.col-xs-6
+						label(for="start-lang") From:
+						select.form-control#start-lang(name="start-lang")
+							option English
+							option Spanish
+							option German
+							option French
+					div.form-group.col-xs-6
+						label(for="end-lang") To:
+						select.form-control#end-lang(name="end-lang")
+							option English
+							option Spanish
+							option German
+							option French
+				div.form-group.row
+					input.form-control#translate-input(name="translate-input" placeholder="What To Translate")
+				div.form-group.row
+					button.btn.btn-default#translate-btn(type="Submit") Translate!
+block scripts
+	script(src="/js/translate.js")
