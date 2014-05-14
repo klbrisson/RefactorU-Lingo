@@ -1,7 +1,10 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var translateController = require('./controllers/translate.js');
-var quizController = require('./controllers/quiz.js')
+var quizController = require('./controllers/quiz.js');
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/lingo');
 
 
 
@@ -23,12 +26,13 @@ app.get('/quiz', quizController.quiz)
 
 app.get('/quiz/:language', quizController.startQuiz)
 
+
 app.get('/progress', function(req, res) {
     res.render('Progress');
 })
 
 
 
-var server = app.listen(3364, function() {
+var server = app.listen(3000, function() {
     console.log('Express server listening on port ' + server.address().port);
 });

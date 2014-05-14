@@ -7,9 +7,10 @@ var beglobal = new BeGlobal.BeglobalAPI({
 });
 
 
+
+
 module.exports = {
     translation: function(req, res) {
-        console.log(req);
         beglobal.translations.translate({
                 text: req.body.info.text,
                 from: req.body.info.from,
@@ -19,14 +20,21 @@ module.exports = {
                 if (err) {
                     return console.log(err);
                 }
-                console.log(results);
                 res.send(results.translation);
             }
         );
     },
     renderTranslatePage: function(req, res) {
-        res.render('Translate', {
-            langs: translateModel.languages
-        });
+        // Finds languages in mongo database
+        translateModel.languages.find({}, function(err, languages) {
+            if(err) {
+                console.log(err);
+                res.send(500, 'There was an error finding languages.');
+                return;
+            }
+            res.render('Translate', {
+                langs: languages
+            });
+        })
     }
 }

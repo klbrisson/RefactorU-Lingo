@@ -1,17 +1,10 @@
-var languages = [{
-    name: 'English',
-    code: 'eng'
-}, {
-    name: 'Spanish',
-    code: 'spa'
-}, {
-    name: 'German',
-    code: 'ger'
-}, {
-    name: 'French',
-    code: 'fra'
-}]
+var mongoose = require('mongoose');
+
+var Language = mongoose.model('language', {
+	name: String,
+	code: String
+});
 
 module.exports = {
-    languages: languages
+    languages: Language
 }
