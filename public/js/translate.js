@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
     var createTranslateEl = function(inputLang, outputLang, translationInput, translationOutput) {
-        console.log('creating dom element')
         var translationEl = $('.template.translation').clone();
 
         translationEl.find('.input-lang').text(inputLang);
@@ -33,11 +32,17 @@ $(document).ready(function() {
 
             if (data.toLowerCase() === text.toLowerCase()) {
                 console.log('same foo!')
+                var $message = $('<span>Could not translate! Try Again!</span>');
+                $message.hide();
+                $('#translate-btn').after($message);
+                $message.fadeIn(1500, function() {
+                    $(this).fadeOut(1500, function() {
+                        $(this).remove();
+                    })
+                });
+
+                return false;
             }
-
-            console.log(data);
-
-            console.log('about to create dom el')
 
             $('#translation-container').append(createTranslateEl(fromFullLang, toFullLang, text, data))
 
