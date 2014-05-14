@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
     var createTranslateEl = function(inputLang, outputLang, translationInput, translationOutput) {
+        console.log('creating dom element')
         var translationEl = $('.template.translation').clone();
 
         translationEl.find('.input-lang').text(inputLang);
@@ -9,6 +10,8 @@ $(document).ready(function() {
         translationEl.find('.translate-input').text(translationInput);
         translationEl.find('.translate-output').text(translationOutput);
 
+        translationEl.removeClass('template');
+
         return translationEl;
     }
 
@@ -16,9 +19,11 @@ $(document).ready(function() {
         var text = $('#translate-input').val();
         var from = $('#start-lang option:selected').data('code');
         var to = $('#end-lang option:selected').data('code');
+        var fromFullLang = $('#start-lang option:selected').val();
+        var toFullLang = $('#end-lang option:selected').val();
         console.log(text, from, to);
 
-        $.post('/translation', {
+        $.post('/translate', {
             info: {
                 text: text,
                 from: from,
@@ -32,7 +37,9 @@ $(document).ready(function() {
 
             console.log(data);
 
-            $('#translation-container').append(createTranslateEl(from, to, text, data))
+            console.log('about to create dom el')
+
+            $('#translation-container').append(createTranslateEl(fromFullLang, toFullLang, text, data))
 
 
         })
