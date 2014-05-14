@@ -1,5 +1,5 @@
 var BeGlobal = require('node-beglobal');
-var languages = require('../models/translate.js');
+var translateModel = require('../models/translate.js');
 
 //initialize the BeGlobal API
 var beglobal = new BeGlobal.BeglobalAPI({
@@ -26,7 +26,7 @@ module.exports = {
     },
     renderTranslatePage: function(req, res) {
         res.render('Translate', {
-            langs: languages.languages
+            langs: translateModel.languages
         });
     }
 }

@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var translateController = require('./controllers/translate.js');
+var quizController = require('./controllers/quiz.js')
 
 
 
@@ -18,9 +19,9 @@ app.get('/translate', translateController.renderTranslatePage)
 
 app.post('/translate', translateController.translation)
 
-app.get('/quiz', function(req, res) {
-    res.render('Quiz');
-})
+app.get('/quiz', quizController.quiz)
+
+app.get('/quiz/:language', quizController.startQuiz)
 
 app.get('/progress', function(req, res) {
     res.render('Progress');
