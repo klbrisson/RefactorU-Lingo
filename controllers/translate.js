@@ -1,5 +1,5 @@
 var BeGlobal = require('node-beglobal');
-var translateModel = require('../models/translate.js');
+var languagesModel = require('../models/languages.js');
 
 //initialize the BeGlobal API
 var beglobal = new BeGlobal.BeglobalAPI({
@@ -26,8 +26,8 @@ module.exports = {
     },
     renderTranslatePage: function(req, res) {
         // Finds languages in mongo database
-        translateModel.languages.find({}, function(err, languages) {
-            if(err) {
+        languagesModel.languages.find({}, function(err, languages) {
+            if (err) {
                 console.log(err);
                 res.send(500, 'There was an error finding languages.');
                 return;
