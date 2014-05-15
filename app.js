@@ -31,6 +31,8 @@ app.get('/progress', function(req, res) {
     res.render('Progress');
 })
 
+app.get('/quizword', quizController.quizWord);
+
 
 var server = app.listen(3000, function() {
     console.log('Express server listening on port ' + server.address().port);

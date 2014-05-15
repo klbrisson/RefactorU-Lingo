@@ -20,6 +20,7 @@ module.exports = {
                 if (err) {
                     return console.log(err);
                 }
+                console.log(results);
                 res.send(results.translation);
             }
         );
@@ -36,5 +37,19 @@ module.exports = {
                 langs: languages
             });
         })
+    },
+    translateWord: function(text, to, from, cb) {
+        beglobal.translations.translate({
+                    text: text,
+                    from: from,
+                    to: to
+                },
+                function(err, results) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    cb(results);
+                }
+            );
     }
 }

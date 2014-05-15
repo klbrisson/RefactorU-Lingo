@@ -4,13 +4,22 @@ block content
   h1 Quiz
 
   if takeQuiz
+    div#quizData(data-quiz-id=quizID, data-question-index= "0", data-lang-code= selectedLangCode)
     h3 Starting Quiz for #{selectedLang}
     h5 Using these words
-      for word in theQuiz
-        p= word
+    div Loading Quiz #{quizID}
+    button#begin-quiz Start Quiz
+    div.question.template
+      span.word
+      input.answer
+      button Submit
+      button Next Question
   else
     h3 Select which Quiz
       select.form-control#quiz-lang(name="quiz-lang")
         for lang in langs 
           option(data-code='#{lang.code}')= lang.name
-    button.btn.btn-default(id="start-quiz") Go!
+    a.btn.btn-default#create-quiz(href="/quiz/" + langs[0].name) Go!
+
+block scripts
+  script(src="/js/quiz.js")

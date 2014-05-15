@@ -1,4 +1,5 @@
 var languagesModel = require('../models/languages.js');
+var translateController = require('./translate.js');
 var Quiz = require('../models/quiz.js');
 
 module.exports = {
@@ -17,24 +18,28 @@ module.exports = {
     },
     startQuiz: function(req, res) {
         var selectedLang = req.params.language;
-        console.log('starting quiz creation')
+        var selectedLangCode = req.query.langCode;
+        console.log('REQ.QUERY IS:',req.query);
 
+        console.log('starting quiz creation')
         Quiz.createQuiz(function(newQuiz) {
+            console.log(selectedLangCode);
             res.render('Quiz', {
                 takeQuiz: true,
                 selectedLang: selectedLang,
-                theQuiz: newQuiz
-
+                selectedLangCode: selectedLangCode,
+                quizID: newQuiz._id
             });
         });
-
-
-
-        // res.render('Quiz', {
-        //     takeQuiz: true,
-        //     selectedLang: selectedLang,
-        //     theQuiz: theQuiz
-
-        // });
+    },
+    quizWord: function(req, res) {
+        console.log(req.query);
+        res.send('something')
+        // TODO:
+        // find the quiz by id
+        // Quiz.findById()
+        // get the next word in quiz
+        // translate word
+        // send new word, quiz id, index
     }
 }

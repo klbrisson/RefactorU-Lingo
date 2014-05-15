@@ -22,11 +22,17 @@ module.exports = {
                 words: words
             })
             newQuiz.save(function(err, newQuiz) {
-
-                cb(newQuiz)
+                Quiz.findOne(newQuiz)
+                .populate('words', null, 'word')
+                .exec(function(err, quiz) {
+                    console.log('quiz in cb:', quiz);
+                    cb(quiz)
+                })
+            })
+                
 
             });
-        });
+        
     }
 
 }

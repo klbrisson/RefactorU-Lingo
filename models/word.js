@@ -21,6 +21,4 @@ Word.find({}, function(err, docs) {
     }
 });
 
-module.exports = {
-    word: Word
-}
+module.exports = Word;
