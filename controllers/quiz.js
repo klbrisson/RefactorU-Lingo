@@ -1,9 +1,10 @@
 var languagesModel = require('../models/languages.js');
+var Word = require('../models/word.js');
 var translateController = require('./translate.js');
 var Quiz = require('../models/quiz.js');
 
 module.exports = {
-    quiz: function(req, res) {
+    selectQuiz: function(req, res) {
         languagesModel.languages.find({}, function(err, languages) {
             if (err) {
                 console.log(err);
@@ -17,23 +18,29 @@ module.exports = {
         })
     },
     startQuiz: function(req, res) {
-        var selectedLang = req.params.language;
-        var selectedLangCode = req.query.langCode;
-        console.log('REQ.QUERY IS:', req.query);
 
-        console.log('starting quiz creation')
-        Quiz.createQuiz(function(newQuiz) {
-            console.log(selectedLangCode);
-            var qID = newQuiz._id;
-            console.log('quiz_id before jade-', qID)
-            res.render('Quiz', {
-                takeQuiz: true,
-                selectedLang: selectedLang,
-                selectedLangCode: selectedLangCode,
-                quizID: newQuiz._id
-            });
-        });
+
+
+
+
+        // OLD CODE
+        // var selectedLang = req.params.language;
+        // var selectedLangCode = req.query.langCode;
+        // console.log('REQ.QUERY IS:', req.query);
+
+        // console.log('starting quiz creation')
+        // Quiz.createQuiz(function(newQuiz) {
+        //     var qID = newQuiz._id;
+        //     // console.log('quiz_id before jade-', qID)
+        //     res.render('Quiz', {
+        //         takeQuiz: true,
+        //         selectedLang: selectedLang,
+        //         selectedLangCode: selectedLangCode,
+        //         quizID: newQuiz._id
+        //     });
+        // });
     },
+
     quizWord: function(req, res) {
         console.log(req.query);
         var index = +req.query.questionIndex;
@@ -60,11 +67,36 @@ module.exports = {
                 })
 
             })
-        // TODO:
-        // find the quiz by id
-        // Quiz.findById()
-        // get the next word in quiz
-        // translate word
-        // send new word, quiz id, index
+    },
+
+    createQuiz: function(cb) {
+        Word.find({}, function(err, words) {
+            // gets 
+            var selectedLangFull = req.params.language;
+            var selectedLangCode = req.query.langCode;
+
+            // creates a new quiz
+            var newQuiz = new Quiz({
+                words: words,
+                questionLangCode: selectedLangCode,
+                answerLangCode: 'eng',
+                questionLangFull: selectedLangFull,
+                answerLangFull: 'English',
+                questionIndex: 0,
+                takeQuiz: true
+            })
+
+            // saves the new quiz to db
+            newQuiz.save(function(err, newQuiz) {
+                // Do we need to do "Quiz.findOne(newQuiz)"? Can we just do newQuiz.populate....?
+                Quiz.findOne(newQuiz)
+                .populate('words', null, 'word')
+                .exec(function(err, quiz) {
+                    // renders the Quiz page passing the newQuiz
+                    res.render('Quiz', newQuiz);
+                })
+            })
+        });
+        
     }
 }

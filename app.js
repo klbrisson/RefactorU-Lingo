@@ -22,7 +22,12 @@ app.get('/translate', translateController.renderTranslatePage)
 
 app.post('/translate', translateController.translation)
 
-app.get('/quiz', quizController.quiz)
+// OLD CODE
+// app.get('/quiz', quizController.quiz)
+
+// NEW CODE
+app.get('/selectquiz', quizController.quiz)
+
 
 app.get('/quiz/:language', quizController.startQuiz)
 

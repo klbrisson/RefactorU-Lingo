@@ -5,34 +5,43 @@ var Quiz = mongoose.model('quiz', {
     words: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Word'
-    }]
+    }],
+    questionLangCode: String,
+    answerLangCode: String,
+    questionLangFull: String,
+    answerLangFull: String,
+    questionIndex: Number,
+    takeQuiz: Boolean
 });
 
-module.exports = {
-    quiz: Quiz,
-    createQuiz: function(cb) {
-        // get 10 words, 
-        // return new Quiz object with words
+module.exports = Quiz;
 
-        console.log('got to createQuiz')
 
-        Word.find({}, function(err, words) {
-            console.log('found these words for quiz:', words);
-            var newQuiz = new Quiz({
-                words: words
-            })
-            newQuiz.save(function(err, newQuiz) {
-                Quiz.findOne(newQuiz)
-                .populate('words', null, 'word')
-                .exec(function(err, quiz) {
-                    console.log('quiz in cb:', quiz);
-                    cb(quiz)
-                })
-            })
+// module.exports = {
+//     quiz: Quiz,
+//     createQuiz: function(cb) {
+//         // get 10 words, 
+//         // return new Quiz object with words
+
+//         console.log('got to createQuiz')
+
+//         Word.find({}, function(err, words) {
+//             console.log('found these words for quiz:', words);
+//             var newQuiz = new Quiz({
+//                 words: words
+//             })
+//             newQuiz.save(function(err, newQuiz) {
+//                 Quiz.findOne(newQuiz)
+//                 .populate('words', null, 'word')
+//                 .exec(function(err, quiz) {
+//                     console.log('quiz in cb:', quiz);
+//                     cb(quiz)
+//                 })
+//             })
                 
 
-            });
+//             });
         
-    }
+//     }
 
-}
+// }

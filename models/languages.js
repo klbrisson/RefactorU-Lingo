@@ -38,6 +38,4 @@ Language.find({}, function(err, docs) {
     }
 });
 
-module.exports = {
-    languages: Language
-}
+module.exports = Language;
