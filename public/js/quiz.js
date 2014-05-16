@@ -37,7 +37,7 @@ $(document).ready(function() {
 
             }
         )
-    })
+    });
 
     $(document).on('click', '.next-translation', function() {
         var questionEl = $('.question.template').clone();
@@ -64,6 +64,17 @@ $(document).ready(function() {
 
             }
         )
-    })
+    });
 
+    $(document).on('click', '.check-translation', function() {
+        console.log('submit')
+        var quizID = $('#quizData').data('quiz-id');
+        var to = $('#quizData').data('lang-code');
+        var questionIndex = $('#quizData').data('question-index');
+        $.post('/checkAnswer', {},
+            function(data) {
+                console.log(data)
+            })
+
+    })
 })
