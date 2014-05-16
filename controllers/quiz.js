@@ -19,11 +19,13 @@ module.exports = {
     startQuiz: function(req, res) {
         var selectedLang = req.params.language;
         var selectedLangCode = req.query.langCode;
-        console.log('REQ.QUERY IS:',req.query);
+        console.log('REQ.QUERY IS:', req.query);
 
         console.log('starting quiz creation')
         Quiz.createQuiz(function(newQuiz) {
             console.log(selectedLangCode);
+            var qID = newQuiz._id;
+            console.log('quiz_id before jade-', qID)
             res.render('Quiz', {
                 takeQuiz: true,
                 selectedLang: selectedLang,
@@ -34,7 +36,30 @@ module.exports = {
     },
     quizWord: function(req, res) {
         console.log(req.query);
-        res.send('something')
+        var index = +req.query.questionIndex;
+        var to = req.query.to;
+        var from = req.query.from;
+        var quizID = req.query.quizID;
+
+        // find current quiz
+        Quiz.quiz.findById(quizID)
+            .populate('words', null, 'word')
+            .exec(function(err, theQuiz) {
+                // find next word
+                var theNextWord = theQuiz.words[index].word;
+
+                // translate then send word
+                translateController.translateWord(theNextWord, to, from, function(results) {
+                    translationObj = {
+                        translatedWord: results.translation,
+                        quizID: quizID,
+                        nextIndex: index + 1,
+                        langCode: to
+                    }
+                    res.send(translationObj);
+                })
+
+            })
         // TODO:
         // find the quiz by id
         // Quiz.findById()
